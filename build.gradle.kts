@@ -13,6 +13,7 @@ dependencies {
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+    testImplementation("io.kotlintest:kotlintest-assertions:3.4.2")
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
