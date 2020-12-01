@@ -2,10 +2,11 @@ package ch.mgysel.aoc.day01
 
 import ch.mgysel.aoc.common.InputData
 import ch.mgysel.aoc.common.cartesianProduct
+import ch.mgysel.aoc.common.printAndMeasureDuration
 
 fun main() {
-    println("Part One: ${solvePart1()}")
-    println("Part Two: ${solvePart2()}")
+    printAndMeasureDuration("Part One", ::solvePart1)
+    printAndMeasureDuration("Part Two", ::solvePart2)
 }
 
 val numbers = InputData.readLines("day01.txt").map { it.toInt() }
