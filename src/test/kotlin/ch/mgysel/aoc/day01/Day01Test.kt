@@ -1,7 +1,7 @@
 package ch.mgysel.aoc.day01
 
-import io.kotlintest.shouldBe
-import kotlin.test.Test
+import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.Test
 
 class Day01Test {
 
