@@ -16,7 +16,7 @@ fun solvePart1(): Int {
 }
 
 fun solvePart2(): Long {
-    val paths = arrayOf(
+    val steps = arrayOf(
         1 to 1,
         3 to 1,
         5 to 1,
@@ -24,22 +24,24 @@ fun solvePart2(): Long {
         1 to 2
     ).map { (x, y) -> Step(x, y) }
 
-    return paths.map { step ->
+    return steps.map { step ->
         moveAndCountTrees(landscape, step).toLong()
     }.reduce(Long::times)
 }
 
 fun moveAndCountTrees(landscape: Landscape, step: Step): Int {
-    // 0,0 is top left
-    val position = Position(0, 0)
-    var treeCounter = 0
-    do {
-        position.move(step)
-        if (landscape.getObstacle(position) == Obstacle.TREE) {
-            treeCounter++
-        }
-    } while (position.y < landscape.getHeight() - 1)
-    return treeCounter
+    val path = sequence {
+        // 0,0 is top left
+        var position = Position(0, 0)
+        do {
+            position = position.move(step)
+            yield(position)
+        } while (position.y < landscape.getHeight() - 1)
+    }
+    return path.map { landscape.getObstacle(it) }
+        .filter { it == Obstacle.TREE }
+        .map { 1 }
+        .sum()
 }
 
 enum class Obstacle {
@@ -48,10 +50,9 @@ enum class Obstacle {
 
 data class Step(val x: Int, val y: Int)
 
-class Position(var x: Int, var y: Int) {
-    fun move(step: Step) {
-        x += step.x
-        y += step.y
+class Position(val x: Int, val y: Int) {
+    fun move(step: Step): Position {
+        return Position(x + step.x, y + step.y)
     }
 }
 
