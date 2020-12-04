@@ -11,6 +11,8 @@ fun main() {
 val data = InputData.read("day04.txt")
 val mandatoryFields = listOf("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid")
 val validEyeColors = setOf("amb", "blu", "brn", "gry", "grn", "hzl", "oth")
+val validHaircolor = Regex("#[0-9a-f]{6}")
+val validPassport = Regex("[0-9]{9}")
 
 data class Passport(
     val byr: Int,
@@ -56,16 +58,16 @@ fun passportIsValid(passport: Map<String, String>): Boolean {
             &&
             validateHeight(passport["hgt"])
             &&
-            passport["hcl"]?.matches(Regex("#[0-9a-f]{6}")) ?: false
+            passport["hcl"]?.matches(validHaircolor) ?: false
             &&
             passport["ecl"] in validEyeColors
             &&
-            passport["pid"]?.matches(Regex("[0-9]{9}")) ?: false)
+            passport["pid"]?.matches(validPassport) ?: false)
 }
 
-fun parsePassports(data: String): List<Map<String, String>> {
+fun parsePassports(data: String): Sequence<Map<String, String>> {
     return data
-        .split("\n\n")
+        .splitToSequence("\n\n")
         .map(::parsePassport)
 }
 
