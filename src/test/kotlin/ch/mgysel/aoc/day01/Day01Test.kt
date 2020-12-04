@@ -1,9 +1,9 @@
 package ch.mgysel.aoc.day01
 
+import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
-import org.junit.jupiter.api.Test
 
-class Day01Test {
+class Day01Test : AnnotationSpec() {
 
     @Test
     fun `solve sample part 1`() {
