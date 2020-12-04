@@ -13,7 +13,7 @@ val mandatoryFields = listOf("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid")
 val validEyeColors = setOf("amb", "blu", "brn", "gry", "grn", "hzl", "oth")
 
 data class Passport(
-    val byr:Int,
+    val byr: Int,
     val iyr: Int,
     val eyr: Int,
     val hgt: Int,
@@ -40,10 +40,11 @@ fun solvePart2(): Any {
 
 fun passportIsValid(passport: Map<String, String>): Boolean {
     val validateHeight = fun(height: String?): Boolean {
-        if(height.isNullOrBlank()) return false
+        if (height.isNullOrBlank()) return false
+        val heightNumber = height.dropLast(2).toInt()
         return when (height.takeLast(2)) {
-            "cm" -> height.dropLast(2).toInt() in 150..193
-            "in" -> height.dropLast(2).toInt() in 59..76
+            "cm" -> heightNumber in 150..193
+            "in" -> heightNumber in 59..76
             else -> false
         }
     }
