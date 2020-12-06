@@ -2,7 +2,6 @@ package ch.mgysel.aoc.day05
 
 import ch.mgysel.aoc.common.InputData
 import ch.mgysel.aoc.common.printAndMeasureDuration
-import kotlin.math.pow
 
 fun main() {
     printAndMeasureDuration("Part One", ::solvePart1)
@@ -37,8 +36,8 @@ fun parseSeat(line: String): Seat {
 }
 
 private fun CharSequence.calculateBinaryPartition(higherChar: Char): Int {
-    return reversed()
-        .mapIndexed { index, char ->
-            if (char == higherChar) 2.0.pow(index).toInt() else 0
-        }.sum()
+    return this
+        .map { char -> if (char == higherChar) '1' else '0' }
+        .joinToString("")
+        .toInt(2)
 }
