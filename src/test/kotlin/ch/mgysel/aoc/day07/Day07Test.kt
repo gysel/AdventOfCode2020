@@ -1,9 +1,5 @@
-package ch.mgysel.aoc
+package ch.mgysel.aoc.day07
 
-import ch.mgysel.aoc.day07.calculateRequiredBags
-import ch.mgysel.aoc.day07.findSources
-import ch.mgysel.aoc.day07.parseBags
-import ch.mgysel.aoc.day07.solvePart1
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
