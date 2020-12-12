@@ -31,10 +31,10 @@ fun reachEquilibrium(mapStates: Sequence<SeatMap>): Int = mapStates
     .first { (it, next) -> it == next }
     .let { (it, _) -> countOccupiedSeats(it) }
 
-fun SeatMap.print() {
-    this.forEach { println(it.joinToString("")) }
-    println("")
-}
+//fun SeatMap.print() {
+//    this.forEach { println(it.joinToString("")) }
+//    println("")
+//}
 
 private fun countOccupiedSeats(map: SeatMap) =
     map.sumOf { row -> row.count { seat -> seat == '#' } }
@@ -42,14 +42,14 @@ private fun countOccupiedSeats(map: SeatMap) =
 fun createMapStates(
     map: SeatMap,
     leaveSeatThreshold: Int,
-    countSeatsFunction: (rowIndex: Int, columnIndex: Int, map: SeatMap, state: Char) -> Int
+    countSeatsFunction: (rowIndex: Int, columnIndex: Int, map: SeatMap) -> Int
 ): Sequence<SeatMap> = sequence {
     var currentMap = map
     while (true) {
         yield(currentMap)
         currentMap = currentMap.mapIndexed { rowIndex, row ->
             row.mapIndexed { columnIndex, seat ->
-                val occupiedSeats = countSeatsFunction(rowIndex, columnIndex, currentMap, '#')
+                val occupiedSeats = countSeatsFunction(rowIndex, columnIndex, currentMap)
                 if (seat == 'L' && occupiedSeats == 0) {
                     '#'
                 } else {
@@ -69,13 +69,13 @@ val directions = (-1..1).flatMap { x ->
     (-1..1).map { y -> x to y }
 }.filter { !(it.first == 0 && it.second == 0) }
 
-fun countAdjacentSeats(rowIndex: Int, columnIndex: Int, map: SeatMap, state: Char): Int {
+fun countAdjacentSeats(rowIndex: Int, columnIndex: Int, map: SeatMap): Int {
     return directions.sumBy { (x, y) ->
-        if (map.getSeatState(columnIndex + x, rowIndex + y) == state) 1 else 0
+        if (map.getSeatState(columnIndex + x, rowIndex + y) == '#') 1 else 0
     }
 }
 
-fun countVisibleSeats(rowIndex: Int, columnIndex: Int, map: SeatMap, state: Char): Int {
+fun countVisibleSeats(rowIndex: Int, columnIndex: Int, map: SeatMap): Int {
     return directions
         .map { direction ->
             generateSequence(columnIndex to rowIndex) { (columnIndex, rowIndex) ->
