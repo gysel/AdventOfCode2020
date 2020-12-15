@@ -8,12 +8,10 @@ repositories {
     jcenter()
 }
 
-val kotestVersion = "4.3.1"
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-//    testImplementation("org.jetbrains.kotlin:kotlin-test")
-//    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+    val kotestVersion = "4.3.1"
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-property:$kotestVersion")
@@ -21,6 +19,7 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    maxHeapSize = "1024m"
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_11
