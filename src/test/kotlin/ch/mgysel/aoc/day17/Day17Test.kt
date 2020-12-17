@@ -4,21 +4,20 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
 class Day17Test : StringSpec({
-
-    "verify example of part 1" {
-        val map = """
+    val example = """
             .#.
             ..#
             ###
-        """.trimIndent().parseMap()
+        """.trimIndent()
 
-        val states = generateSequence(map, ::simulateCycle)
-            .drop(1) // drop the initial map
-            .take(6).toList()
-        states.last().count { it.value } shouldBe 112
+    "verify example of part 1" {
+        val map = example.parseMap()
+        calculateSolution(map) shouldBe 112
     }
 
     "verify examples of part 2" {
+        val map = example.parseMap(4)
+        calculateSolution(map) shouldBe 848
     }
 
     "verify solution of part 1" {
@@ -26,6 +25,6 @@ class Day17Test : StringSpec({
     }
 
     "verify solution of part 2" {
-        solvePart2() shouldBe "TODO"
+        solvePart2() shouldBe 2552
     }
 })

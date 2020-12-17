@@ -1,5 +1,6 @@
 package ch.mgysel.aoc.day17
 
+import ch.mgysel.aoc.common.cartesianProduct
 import ch.mgysel.aoc.common.printAndMeasureDuration
 
 fun main() {
@@ -19,7 +20,16 @@ val data = """
 """.trimIndent()
 
 fun solvePart1(): Any {
-    val startState: Map<Position, Boolean> = data.parseMap()
+    val map = data.parseMap(3)
+    return calculateSolution(map)
+}
+
+fun solvePart2(): Any {
+    val map = data.parseMap(4)
+    return calculateSolution(map)
+}
+
+fun calculateSolution(startState: Map<Position, Boolean>): Int {
     val states = generateSequence(startState, ::simulateCycle)
     val sixthState = states
         .drop(6) // the initial map is emitted by the Sequence as well
@@ -42,10 +52,10 @@ fun simulateCycle(state: Map<Position, Boolean>): Map<Position, Boolean> {
     return newState + newCubes
 }
 
-fun String.parseMap(): Map<Position, Boolean> {
+fun String.parseMap(dimensions: Int = 3): Map<Position, Boolean> {
     return lines().flatMapIndexed { y, line ->
         line.mapIndexed { x, c ->
-            val position = Position(x, y, 0)
+            val position = if (dimensions == 3) Position(x, y, 0) else Position(x, y, 0, 0)
             position to (c == '#')
         }
     }.toMap()
@@ -66,19 +76,17 @@ private fun calculateNewCubeState(
     }
 }
 
-data class Position(
-    val x: Int,
-    val y: Int,
-    val z: Int,
-) {
-    fun getNeighbourCoordinates() = (-1..1).flatMap { x ->
-        (-1..1).flatMap { y ->
-            (-1..1).mapNotNull { z ->
-                Position(this.x + x, this.y + y, this.z + z)
-                    .takeIf { it != this }
+data class Position(val components: List<Int>) {
+
+    constructor(vararg components: Int) : this(components.toList())
+
+    fun getNeighbourCoordinates(): Sequence<Position> {
+        val dimensions = components.size
+        return cartesianProduct((1..dimensions).map { listOf(-1, 0, 1) })
+            .asSequence()
+            .filter { !it.all { c -> c == 0 } }
+            .map { offsets ->
+                Position(offsets.zip(components).map { it.first + it.second })
             }
-        }
     }
 }
-
-fun solvePart2(): Any = "TODO"
