@@ -1,5 +1,6 @@
 package ch.mgysel.aoc.day12
 
+import ch.mgysel.aoc.common.Vector
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
